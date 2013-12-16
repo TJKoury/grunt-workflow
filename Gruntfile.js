@@ -41,23 +41,8 @@ module.exports = function (grunt) {
     grunt.initConfig({
         yeoman: yeomanConfig,
         watch: {
-            // coffee: {
-            //     files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-            //     tasks: ['coffee:dist']
-            // },
-            // coffeeTest: {
-            //     files: ['test/spec/{,*/}*.coffee'],
-            //     tasks: ['coffee:test']
-            // },
             options: {
                 livereload: true
-            },
-            compass: {
-                files: ['<%= yeoman.app %>/styles/**/*.{scss,sass}'],
-                tasks: ['compass:server'],
-                options: {
-                    livereload: false,
-                },
             },
             handlebars: {
                 files: [
@@ -121,54 +106,8 @@ module.exports = function (grunt) {
                 }]
             },
             server: ['.tmp'],
-            compassSprites: {
-                files: [{
-                    src: [
-                        '<%= yeoman.dist %>/<%= yeoman.app %>/images/sprites/*',
-                        '!<%= yeoman.dist %>/<%= yeoman.app %>/images/sprites/*.*',
-                    ],
-                }],
-            },
         },
-        // jshint: {
-        //     options: {
-        //         jshintrc: '.jshintrc'
-        //     },
-        //     all: [
-        //         'Gruntfile.js',
-        //         '<%= yeoman.app %>/scripts/**/*.js',
-        //         '!<%= yeoman.app %>/scripts/vendor/*',
-        //         'test/spec/**/*.js'
-        //     ]
-        // },
-        // mocha: {
-        //     all: {
-        //         options: {
-        //             run: true,
-        //             // urls: ['http://localhost:<%= connect.options.port %>/index.html']
-        //         }
-        //     }
-        // },
-        // coffee: {
-        //     dist: {
-        //         files: [{
-        //             expand: true,
-        //             cwd: '<%= yeoman.app %>/scripts',
-        //             src: '{,*/}*.coffee',
-        //             dest: '.tmp/app/scripts',
-        //             ext: '.js'
-        //         }]
-        //     },
-        //     test: {
-        //         files: [{
-        //             expand: true,
-        //             cwd: 'test/spec',
-        //             src: '{,*/}*.coffee',
-        //             dest: '.tmp/spec',
-        //             ext: '.js'
-        //         }]
-        //     }
-        // },
+        
         compass: {
             options: {
                 sassDir: '<%= yeoman.app %>/styles',
@@ -210,11 +149,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        // not used since Uglify task does concat,
-        // but still available if needed
-        /*concat: {
-            dist: {}
-        },*/
         requirejs: {
             app: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
@@ -408,18 +342,11 @@ module.exports = function (grunt) {
                 ],
             },
             server: [
-                // 'coffee:dist',
-                'compass:server',
+
                 'copy:styles',
                 'handlebars:app',
             ],
-            // test: [
-                // 'coffee',
-                // 'compass',
-                // 'handlebars:app',
-            // ],
             dist: [
-                // 'coffee',
                 'handlebars:app',
                 'copy:styles',
                 'compass:dist',
@@ -458,13 +385,13 @@ module.exports = function (grunt) {
         nodemon: {
             dev: {
                 options: {
-                    file: 'server.js',
+                    file: 'node_modules/actionHero/bin/actionHero -- start --config=node_modules/actionHero/config/config.js',
                     args: ['development'],
                     watchedExtensions: [
                         'js',
                         // This might cause an issue starting the server
                         // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
-                        // 'coffee'
+          
                     ],
                     // nodemon watches the current directory recursively by default
                     // watchedFolders: ['.'],
@@ -670,11 +597,7 @@ module.exports = function (grunt) {
         'copy:dist',
 
         'rev',
-        'usemin',
-
-        // remove sprites folders in dist/images/sprites/
-        // in favor of having just the spritesheet files
-        'clean:compassSprites',
+        'usemin'
     ]);
 
     grunt.registerTask('default', [
